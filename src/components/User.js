@@ -4,5 +4,5 @@ import "../styles/reset.css";
 import "../styles/User.css";
 
 export const User = ({ user }) => {
-  return <div>User</div>;
+  return <div className="User"></div>;
 };
