@@ -1,23 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import "./styles/reset.css";
+import "./App.css";
+
+import { useState } from "react";
+
+import { Navbar } from "./components/Navbar";
+import { SignUp } from "./components/SignUp";
+import { Users } from "./components/Users";
 
 function App() {
+  const [section, setSection] = useState(0);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar setSection={setSection} />
+      {section === 0 && <Users />}
+      {section === 1 && <SignUp />}
     </div>
   );
 }
