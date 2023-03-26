@@ -5,7 +5,7 @@ export const Navbar = ({ setSection }) => {
     <div className="Navbar">
       <button onClick={() => setSection(1)}>Signup</button>
       <button onClick={() => setSection(0)}>Users</button>
-      <button onClick={() => setSection(2)}>User</button>
+      <button onClick={() => setSection(2)}>Accounts</button>
     </div>
   );
 };

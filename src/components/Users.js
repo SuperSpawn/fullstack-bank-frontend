@@ -1,32 +1,52 @@
-import React from "react";
-import axios from "axios";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import "../styles/reset.css";
 import "../styles/Users.css";
 
+import { NoPage } from "../components/NoPage";
 import { UserCard } from "../components/UserCard";
+import { Spinner } from "./Spinner";
+
+import useAxios from "../hooks/useAxios";
 
 export const Users = () => {
-  useEffect(() => {
-    const localUsers = localStorage.getItem("users");
-    if (!localUsers) {
-      axios
-        .get("http://localhost:5001/users")
-        .then((response) => response.data)
-        .then((data) => data.data)
-        .then((data) => localStorage.setItem("users", JSON.stringify(data)))
-        .catch((error) => console.error(error));
-    }
-  }, []);
+  let { loading, error, data } = useAxios(
+    "https://carmine-ostrich-tie.cyclic.app/users/"
+  );
+  const [users, setUsers] = useState(null);
+  //const [refresh, setRefresh] = useState(false);
 
-  const users = JSON.parse(localStorage.getItem("users"));
+  useEffect(() => {
+    if (data) {
+      setUsers(data.data);
+    }
+  }, [data]);
+
+  if (loading) {
+    return <Spinner />;
+  }
+  if (error) {
+    return <NoPage message="Error fetching users" />;
+  }
+
+  const reload = () => {
+    window.location.reload();
+  };
 
   return (
     <div className="Users">
-      {users.map((user) => (
-        <UserCard id={user._id} user={user} />
-      ))}
+      <div className="Users-navbar"></div>
+      <div className="Users-users">
+        {users &&
+          users.map((user, index) => (
+            <UserCard
+              key={user._id}
+              user={user}
+              index={index}
+              reload={reload}
+            />
+          ))}
+      </div>
     </div>
   );
 };
